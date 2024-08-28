@@ -93,15 +93,16 @@ from dotenv import load_dotenv
 
 # Replace the DATABASES section of your settings.py with this
 DATABASES = {
-  'default': {
-    'ENGINE': 'django.db.backends.postgresql',
-    'NAME': getenv('PGDATABASE'),
-    'USER': getenv('PGUSER'),
-    'PASSWORD': getenv('PGPASSWORD'),
-    'HOST': getenv('PGHOST'),
-    'PORT': getenv('PGPORT', 5432),
-  }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',  # Using PostgreSQL as the database engine
+        'NAME': 'postgres',                         # The database name
+        'USER': 'postgres.ycdhugtadteuliqkrjxw',    # The database user
+        'PASSWORD': 'Siddharth@6307862150',              # The password (replace [YOUR-PASSWORD] with the actual password)
+        'HOST': 'aws-0-ap-south-1.pooler.supabase.com',  # The host
+        'PORT': '6543',                             # The port number
+    }
 }
+
 
 
 # Password validation
