@@ -1,9 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
+from autoslug import AutoSlugField
 
 class Subject(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True, default="IDk")
+    auto_slug = AutoSlugField(populate_from='name', unique=True, blank=True, max_length=255)
 
     def __str__(self):
         return self.name
@@ -12,33 +14,28 @@ class Topic(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='topics')
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-
-    def __str__(self):
-        return self.name
-
-class SubTopic(models.Model):
-    topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='subtopics')
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
+    auto_slug = AutoSlugField(populate_from='name', unique=True, blank=True, max_length=255)
 
     def __str__(self):
         return self.name
 
 class Note(models.Model):
-    subtopic = models.ForeignKey(SubTopic, on_delete=models.CASCADE, related_name='notes')
+    topics = models.ManyToManyField(Topic, related_name='notes')
     title = models.CharField(max_length=255)
     content = models.TextField()
     uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='uploaded_notes')
     created_at = models.DateTimeField(auto_now_add=True)
+    auto_slug = AutoSlugField(populate_from='title', unique=True, blank=True, max_length=255)
 
     def __str__(self):
         return self.title
 
 class Question(models.Model):
-    subtopic = models.ForeignKey(SubTopic, on_delete=models.CASCADE, related_name='questions')
+    topics = models.ManyToManyField(Topic, related_name='questions')
     question_text = models.TextField()
     added_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='added_questions')
     created_at = models.DateTimeField(auto_now_add=True)
+    auto_slug = AutoSlugField(populate_from='question_text', unique=True, blank=True, max_length=255)
 
     def __str__(self):
         return self.question_text[:50]  # Show a snippet of the question

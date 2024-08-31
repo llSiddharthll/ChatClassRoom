@@ -89,7 +89,6 @@ WSGI_APPLICATION = 'ChatClassRoom.wsgi.app'
 
 # Add these at the top of your settings.py
 from os import getenv
-from dotenv import load_dotenv
 
 # Replace the DATABASES section of your settings.py with this
 DATABASES = {

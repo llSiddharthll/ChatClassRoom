@@ -1,30 +1,29 @@
 from django import forms
-from .models import Note, Question, SubTopic, Comment, ChatMessage
+from .models import Note, Question, Topic, Comment, ChatMessage
 
 class NoteForm(forms.ModelForm):
-    subtopic = forms.ModelChoiceField(
-        queryset=SubTopic.objects.all(),
-        widget=forms.Select(attrs={'class': 'form-control'}),
-        label="Select Subtopic",
+    topics = forms.ModelMultipleChoiceField(
+        queryset=Topic.objects.all(),
+        widget=forms.SelectMultiple(attrs={'class': 'form-control'}),
+        label="Select Topics",
         required=True
     )
 
     class Meta:
         model = Note
-        fields = ['subtopic', 'title', 'content']
-
+        fields = ['topics', 'title', 'content']
 
 class QuestionForm(forms.ModelForm):
-    subtopic = forms.ModelChoiceField(
-        queryset=SubTopic.objects.all(),
-        widget=forms.Select(attrs={'class': 'form-control'}),
-        label="Select Subtopic",
+    topics = forms.ModelMultipleChoiceField(
+        queryset=Topic.objects.all(),
+        widget=forms.SelectMultiple(attrs={'class': 'form-control'}),
+        label="Select Topics",
         required=True
     )
 
     class Meta:
         model = Question
-        fields = ['subtopic', 'question_text']
+        fields = ['topics', 'question_text']
 
 class CommentForm(forms.ModelForm):
     class Meta:

@@ -1,8 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Subject, Topic, SubTopic, Note, Question
+from .models import Subject, Topic, Note, Question
 from .forms import NoteForm, QuestionForm, CommentForm 
-from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
@@ -67,18 +66,12 @@ def subject_detail(request, pk):
     topics = subject.topics.all()
     return render(request, 'subject_detail.html', {'subject': subject, 'topics': topics})
 
-# List subtopics under a topic
+# Detail view of a topic including notes and questions
 def topic_detail(request, pk):
     topic = get_object_or_404(Topic, pk=pk)
-    subtopics = topic.subtopics.all()
-    return render(request, 'topic_detail.html', {'topic': topic, 'subtopics': subtopics})
-
-# Detail view of a subtopic including notes and questions
-def subtopic_detail(request, pk):
-    subtopic = get_object_or_404(SubTopic, pk=pk)
-    notes = subtopic.notes.all()
-    questions = subtopic.questions.all()
-    return render(request, 'subtopic_detail.html', {'subtopic': subtopic, 'notes': notes, 'questions': questions})
+    notes = topic.notes.all()
+    questions = topic.questions.all()
+    return render(request, 'topic_detail.html', {'topic': topic, 'notes': notes, 'questions': questions})
 
 # Detail view of a note
 def note_detail(request, pk):
@@ -106,16 +99,16 @@ def create_note(request):
         form = NoteForm(request.POST)
         if form.is_valid():
             note = form.save(commit=False)
-            # Retrieve subtopic from form data
-            subtopic_id = request.POST.get('subtopic')
-            note.subtopic = get_object_or_404(SubTopic, pk=subtopic_id)
+            # Retrieve selected topics from form data
+            topics_ids = request.POST.getlist('topics')
             note.uploaded_by = request.user
             note.save()
+            note.topics.set(topics_ids)  # Set many-to-many relationships
             return redirect('dashboard')  # Redirect to dashboard or appropriate page
     else:
         form = NoteForm()
-    subtopics = SubTopic.objects.all()
-    return render(request, 'note_form.html', {'form': form, 'subtopics': subtopics})
+    topics = Topic.objects.all()
+    return render(request, 'note_form.html', {'form': form, 'topics': topics})
 
 @login_required
 def create_question(request):
@@ -123,16 +116,16 @@ def create_question(request):
         form = QuestionForm(request.POST)
         if form.is_valid():
             question = form.save(commit=False)
-            # Retrieve subtopic from form data
-            subtopic_id = request.POST.get('subtopic')
-            question.subtopic = get_object_or_404(SubTopic, pk=subtopic_id)
+            # Retrieve selected topics from form data
+            topics_ids = request.POST.getlist('topics')
             question.added_by = request.user
             question.save()
+            question.topics.set(topics_ids)  # Set many-to-many relationships
             return redirect('dashboard')  # Redirect to dashboard or appropriate page
     else:
         form = QuestionForm()
-    subtopics = SubTopic.objects.all()
-    return render(request, 'question_form.html', {'form': form, 'subtopics': subtopics})
+    topics = Topic.objects.all()
+    return render(request, 'question_form.html', {'form': form, 'topics': topics})
 
 # Create a new comment on a note
 @login_required
@@ -159,7 +152,7 @@ def create_comment_note(request, note_pk):
             comment.note = note
             comment.commented_by = request.user
             comment.save()
-            return redirect('subtopic_detail', pk=note.subtopic.pk)
+            return redirect('note_detail', pk=note.pk)
     else:
         form = CommentForm()
     return render(request, 'comment_form.html', {'form': form})
@@ -175,7 +168,7 @@ def create_comment_question(request, question_pk):
             comment.question = question
             comment.commented_by = request.user
             comment.save()
-            return redirect('subtopic_detail', pk=question.subtopic.pk)
+            return redirect('question_detail', pk=question.pk)
     else:
         form = CommentForm()
     return render(request, 'comment_form.html', {'form': form})
