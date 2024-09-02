@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'crispy_forms',
     'crispy_tailwind',
+    'widget_tweaks',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
