@@ -76,8 +76,14 @@
 <div class="bg-white p-4 rounded-lg shadow flex flex-col md:flex-row md:items-center justify-between gap-4">
   <!-- User Avatar and Info -->
   <div class="flex items-center md:w-[80%]">
-      <img class="h-16 w-16 border-2 border-purple-600 rounded-full object-cover"
+      <!-- User Avatar -->
+       {% if request.user.userprofile.pfp %}
+       <img class="h-16 w-16 border-2 border-purple-600 rounded-md object-cover"
+          src="{{ request.user.userprofile.pfp.url }}" alt="User Avatar">
+       {% else %}
+      <img class="h-16 w-16 border-2 border-purple-600 rounded-md object-cover"
           src="https://api.dicebear.com/9.x/adventurer-neutral/svg?seed={{ user.username }}" alt="User Avatar">
+       {% endif %}
       <div class="ml-4">
           <h2 class="text-xl font-semibold text-gray-800">Welcome, {{ request.user.username }}</h2>
           {% if request.user.userprofile.bio %}
