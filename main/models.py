@@ -1,13 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 from autoslug import AutoSlugField
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
+from cloudinary.models import CloudinaryField
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True, null=True)
-    pfp = models.ImageField(upload_to='profile_pics', blank=True, null=True)
+    pfp = CloudinaryField('pfp', blank=True, null=True)
 
     def __str__(self):
         return self.user.username
