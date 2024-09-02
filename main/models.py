@@ -1,6 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import User
 from autoslug import AutoSlugField
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(blank=True, null=True)
+    pfp = models.ImageField(upload_to='profile_pics', blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
 
 class Subject(models.Model):
     name = models.CharField(max_length=255)
@@ -41,14 +51,16 @@ class Question(models.Model):
         return self.question_text[:50]  # Show a snippet of the question
 
 class Comment(models.Model):
-    note = models.ForeignKey(Note, on_delete=models.CASCADE, related_name='comments', null=True, blank=True)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='comments', null=True, blank=True)
     content = models.TextField()
-    commented_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     created_at = models.DateTimeField(auto_now_add=True)
+    commented_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    
+    # Make this a generic relation (to be used for both notes and questions)
+    note = models.ForeignKey(Note, on_delete=models.CASCADE, null=True, blank=True, related_name='comments')
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True, blank=True, related_name='comments')
 
     def __str__(self):
-        return self.content[:50]  # Show a snippet of the comment
+        return f"Comment by {self.commented_by} on {self.created_at}"
 
 class ChatMessage(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_messages')

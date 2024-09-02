@@ -2,34 +2,35 @@
 
 import json
 from django.core.management.base import BaseCommand
-from main.models import Subject, Topic, SubTopic
+from main.models import Subject, Topic
 
 class Command(BaseCommand):
-    help = 'Import subjects, topics, and subtopics from JSON file'
+    help = 'Import subjects and topics from JSON file'
 
     def add_arguments(self, parser):
         parser.add_argument('json_file', type=str)
 
     def handle(self, *args, **options):
+        # Open and load data from the JSON file
         with open(options['json_file'], 'r') as file:
             data = json.load(file)
 
+        # Iterate over each subject in the data
         for subject_data in data['subjects']:
+            # Create or get the subject object
             subject, created = Subject.objects.get_or_create(
                 name=subject_data['name'],
-                defaults={'description': subject_data['description']}
+                defaults={'description': subject_data.get('description', '')}
             )
+
+            # Iterate over each topic related to the current subject
             for topic_data in subject_data['topics']:
-                topic, created = Topic.objects.get_or_create(
+                # Create or get the topic object associated with the subject
+                Topic.objects.get_or_create(
                     subject=subject,
                     name=topic_data['name'],
-                    defaults={'description': topic_data['description']}
+                    defaults={'description': topic_data.get('description', '')}
                 )
-                for subtopic_data in topic_data['subtopics']:
-                    SubTopic.objects.get_or_create(
-                        topic=topic,
-                        name=subtopic_data['name'],
-                        defaults={'description': subtopic_data['description']}
-                    )
 
+        # Print a success message after importing data
         self.stdout.write(self.style.SUCCESS('Successfully imported data'))

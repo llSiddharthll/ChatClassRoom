@@ -50,12 +50,13 @@
             .then(response => {
                 if (response.data.success) {
                     window.location.href = "{% url 'home' %}"; // Redirect to home or any other page
+                    showSuccessMessage(response.data.success);
                 } else {
-                    toastr.error(response.data.error, 'Error');
+                    showErrorMessage(response.data.error);
                 }
             })
             .catch(error => {
-                toastr.error('An unexpected error occurred. Please try again later.', 'Error');
+                showErrorMessage('An unexpected error occurred. Please try again later.');
                 console.error('There was an error!', error);
             });
     });

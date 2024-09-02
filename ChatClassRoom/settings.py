@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
+    'cloudinary',
     'crispy_forms',
     'crispy_tailwind',
 ]
@@ -158,3 +159,28 @@ STATICFILES_FINDERS = [
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Cloudinary settings
+
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+cloudinary.config(
+    cloud_name = "durdi1oak",
+    api_key = "164254991127435",
+    api_secret = "i8Lzr2SSRJCAlHS_6l0NVqrDkc4",
+    api_proxy = "http://proxy.server:3128"
+)
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'durdi1oak',
+    'API_KEY': '164254991127435',
+    'API_SECRET': 'i8Lzr2SSRJCAlHS_6l0NVqrDkc4',
+}
+
+# Use Cloudinary as the storage backend for media files
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# Media files
+MEDIA_URL = '/media/'  # Set the media URL to a path in your Django project
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Set the local media root folder

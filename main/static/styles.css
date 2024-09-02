@@ -334,6 +334,8 @@ span.linenos.special {
 .markdown-content h1, .markdown-content h2, .markdown-content h3, .markdown-content h4, .markdown-content h5, .markdown-content h6 {
     font-family: 'Poppins', sans-serif !important;
     font-weight: 600 !important;
+    margin-top: 2rem !important;
+    margin-bottom: 1rem !important;
 }
 
 .markdown-content p, .markdown-content li {

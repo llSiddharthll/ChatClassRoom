@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Subject, Topic, Note, Question
-from .forms import NoteForm, QuestionForm, CommentForm 
+from .models import Subject, Topic, Note, Question, Comment, UserProfile
+from .forms import NoteForm, QuestionForm, CommentForm, UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
@@ -61,21 +61,53 @@ def subjects(request):
     return render(request, 'subjects.html', {'subjects': subjects})
 
 # Detail view of a subject including its topics
-def subject_detail(request, pk):
-    subject = get_object_or_404(Subject, pk=pk)
+def topics(request, slug):
+    subject = get_object_or_404(Subject, auto_slug=slug)
     topics = subject.topics.all()
-    return render(request, 'subject_detail.html', {'subject': subject, 'topics': topics})
+    return render(request, 'topics.html', {'subject': subject, 'topics': topics})
 
 # Detail view of a topic including notes and questions
-def topic_detail(request, pk):
-    topic = get_object_or_404(Topic, pk=pk)
-    notes = topic.notes.all()
-    questions = topic.questions.all()
-    return render(request, 'topic_detail.html', {'topic': topic, 'notes': notes, 'questions': questions})
+def topic_detail(request, subject_slug, topic_slug):
+    topic = get_object_or_404(Topic, auto_slug=topic_slug)
+    subject = get_object_or_404(Subject, auto_slug=subject_slug)
+    notes = Note.objects.filter(topics=topic)
+    questions = Question.objects.filter(topics=topic)
+
+    # Fetch all comments related to the notes and questions
+    notes_comments = Comment.objects.filter(note__in=notes)
+    questions_comments = Comment.objects.filter(question__in=questions)
+
+    # Create dictionaries to store comments for each note and question
+    notes_comments_dict = {note.id: [] for note in notes}
+    questions_comments_dict = {question.id: [] for question in questions}
+
+    # Populate dictionaries with comments
+    for comment in notes_comments:
+        notes_comments_dict[comment.note.id].append(comment)
+    
+    for comment in questions_comments:
+        questions_comments_dict[comment.question.id].append(comment)
+
+    context = {
+        'topic': topic,
+        'subject': subject,
+        'notes': notes,
+        'questions': questions,
+        'notes_comments': notes_comments_dict,
+        'questions_comments': questions_comments_dict,
+    }
+
+    return render(request, 'topic_detail.html', context)
 
 # Detail view of a note
-def note_detail(request, pk):
-    note = get_object_or_404(Note, pk=pk)
+def note_detail(request, subject_slug, topic_slug, note_slug):
+    note = get_object_or_404(Note, auto_slug=note_slug)
+
+    # Get the topic associated with the note
+    topic = get_object_or_404(Topic, auto_slug=topic_slug)
+
+    # Get the subject associated with the topic
+    subject = get_object_or_404(Subject, auto_slug=subject_slug)
 
     # Get the previous note
     previous_note = Note.objects.filter(id__lt=note.id).order_by('-id').first()
@@ -84,6 +116,8 @@ def note_detail(request, pk):
     next_note = Note.objects.filter(id__gt=note.id).order_by('id').first()
 
     context = {
+        'topic': topic,
+        'subject': subject,
         'note': note,
         'previous_note': previous_note,
         'next_note': next_note,
@@ -92,6 +126,28 @@ def note_detail(request, pk):
 
 def chat(request):
     return render(request, 'chat.html')
+
+@login_required
+def add_note_comment(request, topic_id):
+    if request.method == 'POST':
+        content = request.POST.get('content')
+        note_id = request.POST.get('note_id')
+        note = get_object_or_404(Note, id=note_id)
+        comment = Comment(content=content, commented_by=request.user, note=note)
+        comment.save()
+        return redirect('topic_detail', topic_id=topic_id)
+    return redirect('topic_detail', topic_id=topic_id)
+
+@login_required
+def add_question_comment(request, topic_id):
+    if request.method == 'POST':
+        content = request.POST.get('content')
+        question_id = request.POST.get('question_id')
+        question = get_object_or_404(Question, id=question_id)
+        comment = Comment(content=content, commented_by=request.user, question=question)
+        comment.save()
+        return redirect('topic_detail', topic_id=topic_id)
+    return redirect('topic_detail', topic_id=topic_id)
 
 @login_required
 def create_note(request):
@@ -175,3 +231,24 @@ def create_comment_question(request, question_pk):
 
 def dashboard(request):
     return render(request, 'dashboard.html')
+
+@login_required
+def edit_profile(request):
+    # Get the user's profile or create one if it doesn't exist
+    profile, created = UserProfile.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile has been updated!')
+            return redirect('dashboard')  # Redirect to the profile page or any other page
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = UserProfileForm(instance=profile)
+    
+    context = {
+        'form': form,
+    }
+    return render(request, 'edit_profile.html', context)

@@ -22,4 +22,14 @@
     </div>
 
 </section>
+
+<!-- Initialize Select2 -->
+<script>
+    $(document).ready(function() {
+        $('#id_topics').select2({
+            placeholder: "Select topics",  // Add a placeholder
+            allowClear: true
+        });
+    });
+</script>
 {% endblock %}
