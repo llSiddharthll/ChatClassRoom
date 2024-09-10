@@ -49,8 +49,8 @@
     </div>
 
     <!-- Note Content -->
-    <div class="prose prose-lg prose-indigo max-w-none bg-white p-8 rounded-lg shadow-lg markdown-content">
-        {{ note.content|render_markdown }}
+    <div id="note-content" class="prose prose-lg prose-indigo max-w-none bg-white p-8 rounded-lg shadow-lg markdown-content">
+
     </div>
 
     <!-- Navigation Buttons -->
@@ -79,4 +79,9 @@
     </div>
 
 </div>
+
+<script>
+    document.getElementById('note-content').innerHTML =
+      marked.parse("{{note.content|escapejs}}");
+</script>
 {% endblock %}

@@ -46,7 +46,41 @@ INSTALLED_APPS = [
     # Your apps
     'main',
     
+    # Third-party apps
+    'django.contrib.sites',  # Required for allauth
+    'allauth',               # Core allauth app
+    'allauth.account',       # Allauth account management
+    'allauth.socialaccount', # Allauth social login support
+
+    # Add any specific providers you're using
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
+    
 ]
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Default backend
+    'allauth.account.auth_backends.AuthenticationBackend',  # Required for allauth
+]
+
+SITE_ID = 1
+
+# Redirect URLs
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+# Email verification settings
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # Options: 'mandatory', 'optional', 'none'
+ACCOUNT_EMAIL_REQUIRED = True
+
+# Signup/registration settings
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'  # Options: 'username', 'email', 'username_email'
+
+# Other settings
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
@@ -61,6 +95,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = 'ChatClassRoom.urls'
@@ -191,3 +226,10 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # Media files
 MEDIA_URL = '/media/'  # Set the media URL to a path in your Django project
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Set the local media root folder
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'llsiddharthtiwarill@gmail.com'
+EMAIL_HOST_PASSWORD = 'font qeui toiz shjl'

@@ -73,37 +73,40 @@
   <div class="flex-grow p-6 bg-gray-50 md:ml-64">
     <div class="max-w-7xl mx-auto">
       <!-- User Info Section -->
-<div class="bg-white p-4 rounded-lg shadow flex flex-col md:flex-row md:items-center justify-between gap-4">
-  <!-- User Avatar and Info -->
-  <div class="flex items-center md:w-[80%]">
-      <!-- User Avatar -->
-       {% if request.user.userprofile.pfp %}
-       <img class="h-16 w-16 border-2 border-purple-600 rounded-md object-cover"
-          src="{{ request.user.userprofile.pfp.url }}" alt="User Avatar">
-       {% else %}
-      <img class="h-16 w-16 border-2 border-purple-600 rounded-md object-cover"
-          src="https://api.dicebear.com/9.x/adventurer-neutral/svg?seed={{ user.username }}" alt="User Avatar">
-       {% endif %}
-      <div class="ml-4">
-          <h2 class="text-xl font-semibold text-gray-800">Welcome, {{ request.user.username }}</h2>
-          {% if request.user.userprofile.bio %}
-          <p class="mt-1 text-sm text-gray-600 hidden md:block">{{ request.user.userprofile.bio }}</p>
+      <div class="bg-white p-4 rounded-lg shadow flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <!-- User Avatar and Info -->
+        <div class="flex items-center md:w-[80%]">
+          <!-- User Avatar -->
+          {% if request.user.userprofile.pfp %}
+          <img class="h-16 w-16 border-2 border-purple-600 rounded-md object-cover"
+            src="{{ request.user.userprofile.pfp.url }}" alt="User Avatar">
           {% else %}
-          <p class="mt-1 text-sm text-gray-600 hidden md:block">"Here curiosity gets a turbo boost and boredom takes a back seat! 🚀📚"</p>
+          <img class="h-16 w-16 border-2 border-purple-600 rounded-md object-cover"
+            src="https://api.dicebear.com/9.x/adventurer-neutral/svg?seed={{ user.username }}" alt="User Avatar">
           {% endif %}
-      </div>
-  </div>
+          <div class="ml-4">
+            <h2 class="text-xl font-semibold text-gray-800">Welcome, {{ request.user.username }}</h2>
+            {% if request.user.userprofile.bio %}
+            <p class="mt-1 text-sm text-gray-600 hidden md:block">{{ request.user.userprofile.bio }}</p>
+            {% else %}
+            <p class="mt-1 text-sm text-gray-600 hidden md:block">"Here curiosity gets a turbo boost and boredom takes a
+              back seat! 🚀📚"</p>
+            {% endif %}
+          </div>
+        </div>
 
-  <!-- Action Buttons -->
-  <div class="flex gap-2 mt-4 md:mt-0 md:w-auto">
-      <a href="{% url 'logout' %}" class="bg-red-500 text-white px-3 py-1.5 rounded-lg hover:bg-red-600 transition duration-300 shadow-md text-sm md:text-base">
-          Logout
-      </a>
-      <a href="{% url 'edit_profile' %}" class="bg-blue-500 text-white px-3 py-1.5 rounded-lg hover:bg-blue-600 transition duration-300 shadow-md text-sm md:text-base">
-          Edit Profile
-      </a>
-  </div>
-</div>
+        <!-- Action Buttons -->
+        <div class="flex gap-2 mt-4 md:mt-0 md:w-auto">
+          <a href="{% url 'account_logout' %}"
+            class="bg-red-500 text-white px-3 py-1.5 rounded-lg hover:bg-red-600 transition duration-300 shadow-md text-sm md:text-base">
+            Logout
+          </a>
+          <a href="{% url 'edit_profile' %}"
+            class="bg-blue-500 text-white px-3 py-1.5 rounded-lg hover:bg-blue-600 transition duration-300 shadow-md text-sm md:text-base">
+            Edit Profile
+          </a>
+        </div>
+      </div>
 
 
       <!-- User Actions -->

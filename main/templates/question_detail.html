@@ -49,8 +49,8 @@
     </div>
 
     <!-- question Content -->
-    <div class="prose prose-lg prose-indigo max-w-none bg-white p-8 rounded-lg shadow-lg markdown-content">
-        {{ question.content|render_markdown }}
+    <div id="question-content" class="prose prose-lg prose-indigo max-w-none bg-white p-8 rounded-lg shadow-lg markdown-content">
+        
     </div>
 
     <!-- Navigation Buttons -->
@@ -79,4 +79,9 @@
     </div>
 
 </div>
+
+<script>
+    document.getElementById('question-content').innerHTML =
+    marked.parse("{{question.content|escapejs}}");
+</script>
 {% endblock %}
