@@ -4,7 +4,7 @@ from .models import Note, Question, Topic, Comment, ChatMessage, UserProfile
 class NoteForm(forms.ModelForm):
     topics = forms.ModelMultipleChoiceField(
         queryset=Topic.objects.all(),
-        widget=forms.SelectMultiple(attrs={'class': 'select2 form-control'}),  # Ensure 'select2' class is added
+        widget=forms.SelectMultiple(attrs={'class': 'select2 form-control'}),  # 'select2' class added
         label="Select Topics",
         required=True
     )
@@ -13,17 +13,18 @@ class NoteForm(forms.ModelForm):
         model = Note
         fields = ['topics', 'title', 'content']
 
+
 class QuestionForm(forms.ModelForm):
     topics = forms.ModelMultipleChoiceField(
         queryset=Topic.objects.all(),
-        widget=forms.SelectMultiple(attrs={'class': 'form-control'}),
+        widget=forms.SelectMultiple(attrs={'class': 'select2 form-control'}),  # 'select2' class added
         label="Select Topics",
         required=True
     )
 
     class Meta:
         model = Question
-        fields = ['topics', 'question_text']
+        fields = ['topics', 'content']
 
 class CommentForm(forms.ModelForm):
     class Meta:

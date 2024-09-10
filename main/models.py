@@ -41,13 +41,29 @@ class Note(models.Model):
 
 class Question(models.Model):
     topics = models.ManyToManyField(Topic, related_name='questions')
-    question_text = models.TextField()
+    title = models.CharField(max_length=255, blank=True, editable=False)  # New field for title
+    content = models.TextField()
     added_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='added_questions')
     created_at = models.DateTimeField(auto_now_add=True)
-    auto_slug = AutoSlugField(populate_from='question_text', unique=True, blank=True, max_length=255)
+    auto_slug = AutoSlugField(populate_from='title', unique=True, blank=True, max_length=255)
+    
+
+    def save(self, *args, **kwargs):
+        # Check if title is empty or needs to be set
+        if not self.title:
+            # Get the count of questions already existing
+            existing_count = Question.objects.count() + 1  # Increment count for new set
+            self.title = f"Question Set {existing_count}"
+            
+            # Check for uniqueness
+            while Question.objects.filter(title=self.title).exists():
+                existing_count += 1
+                self.title = f"Question Set {existing_count}"
+        
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.question_text[:50]  # Show a snippet of the question
+        return self.title or self.question_text[:50]  # Return the title or a snippet of the question
 
 class Comment(models.Model):
     content = models.TextField()

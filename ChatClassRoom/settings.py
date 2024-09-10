@@ -31,18 +31,23 @@ ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app', '.now.sh']
 # Application definition
 
 INSTALLED_APPS = [
+    # Django's built-in apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main',
     'cloudinary',
     'crispy_forms',
     'crispy_tailwind',
     'widget_tweaks',
+
+    # Your apps
+    'main',
+    
 ]
+
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 CRISPY_TEMPLATE_PACK = "tailwind"
@@ -96,12 +101,12 @@ from os import getenv
 # Replace the DATABASES section of your settings.py with this
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',  # Using PostgreSQL as the database engine
-        'NAME': 'postgres',                         # The database name
-        'USER': 'postgres.ycdhugtadteuliqkrjxw',    # The database user
+        'ENGINE': 'django.db.backends.postgresql',       # Using PostgreSQL as the database engine
+        'NAME': 'postgres',                              # The database name
+        'USER': 'postgres.ycdhugtadteuliqkrjxw',         # The database user
         'PASSWORD': 'Siddharth@6307862150',              # The password (replace [YOUR-PASSWORD] with the actual password)
         'HOST': 'aws-0-ap-south-1.pooler.supabase.com',  # The host
-        'PORT': '6543',                             # The port number
+        'PORT': '6543',                                  # The port number
     }
 }
 

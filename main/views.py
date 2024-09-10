@@ -124,6 +124,30 @@ def note_detail(request, subject_slug, topic_slug, note_slug):
     }
     return render(request, 'note_detail.html', context)
 
+def question_detail(request, subject_slug, topic_slug, question_slug):
+    question = get_object_or_404(Question, auto_slug=question_slug)
+
+    # Get the topic associated with the question
+    topic = get_object_or_404(Topic, auto_slug=topic_slug)
+
+    # Get the subject associated with the topic
+    subject = get_object_or_404(Subject, auto_slug=subject_slug)
+
+    # Get the previous question
+    previous_question = Question.objects.filter(id__lt=question.id).order_by('-id').first()
+
+    # Get the next question
+    next_question = Question.objects.filter(id__gt=question.id).order_by('id').first()
+
+    context = {
+        'topic': topic,
+        'subject': subject,
+        'question': question,
+        'previous_note': previous_question,
+        'next_note': next_question,
+    }
+    return render(request, 'question_detail.html', context)
+
 def chat(request):
     return render(request, 'chat.html')
 
