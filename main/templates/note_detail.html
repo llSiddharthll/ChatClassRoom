@@ -49,7 +49,7 @@
     </div>
 
     <!-- Note Content -->
-    <div id="note-content" class="prose prose-lg prose-indigo max-w-none bg-white p-8 rounded-lg shadow-lg markdown-content">
+    <div id="note-content" class="prose max-w-none bg-white p-8 rounded-lg shadow-lg">
 
     </div>
 
@@ -81,7 +81,8 @@
 </div>
 
 <script>
-    document.getElementById('note-content').innerHTML =
-      marked.parse("{{note.content|escapejs}}");
+    var html = marked.parse("{{note.content|escapejs}}");
+    // Insert the HTML into the designated output div
+    document.getElementById('note-content').innerHTML = html;
 </script>
 {% endblock %}
