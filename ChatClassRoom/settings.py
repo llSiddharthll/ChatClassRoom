@@ -146,6 +146,7 @@ DATABASES = {
         'PASSWORD': 'Siddharth@6307862150',              # The password (replace [YOUR-PASSWORD] with the actual password)
         'HOST': 'aws-0-ap-south-1.pooler.supabase.com',  # The host
         'PORT': '6543',                                  # The port number
+        'CONN_MAX_AGE': 600,
     }
 }
 
