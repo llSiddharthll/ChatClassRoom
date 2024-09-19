@@ -44,14 +44,10 @@
                 By <span class="font-medium text-gray-800">{{ note.uploaded_by }}</span>
             </p>
         </div>
-
-
     </div>
 
     <!-- Note Content -->
-    <div id="note-content" class="prose max-w-none bg-white p-8 rounded-lg shadow-lg">
-
-    </div>
+    <div id="note-content" class="prose max-w-none bg-white p-8 rounded-lg shadow-lg"></div>
 
     <!-- Navigation Buttons -->
     <div class="flex justify-between mt-10">
@@ -80,9 +76,15 @@
 
 </div>
 
+
 <script>
+    // Parse the note content and insert it into the note-content div
     var html = marked.parse("{{note.content|escapejs}}");
-    // Insert the HTML into the designated output div
+
+    // Insert the parsed HTML into the designated output div
     document.getElementById('note-content').innerHTML = html;
+
+    // After inserting, activate Prism.js to highlight code blocks
+    Prism.highlightAll();
 </script>
 {% endblock %}

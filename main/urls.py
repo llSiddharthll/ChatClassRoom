@@ -20,4 +20,5 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('signup/', views.signup_view, name='signup'),
+    path('get_data/<str:query>/', views.get_data, name='get_data'),
 ]

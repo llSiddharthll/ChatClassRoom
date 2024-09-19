@@ -6,6 +6,48 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.http import JsonResponse
+from django.db.models import Q
+
+def get_data(request, query):
+    if request.method == 'GET':
+        if query:
+            # Filter subjects, topics, notes, and questions based on the query
+            filtered_subjects = Subject.objects.filter(
+                Q(name__icontains=query) |
+                Q(description__icontains=query)
+            )
+            filtered_topics = Topic.objects.filter(
+                Q(name__icontains=query) |
+                Q(description__icontains=query) |
+                Q(subject__name__icontains=query) |
+                Q(subject__description__icontains=query)
+            )
+            filtered_notes = Note.objects.filter(
+                Q(title__icontains=query) |
+                Q(content__icontains=query) |
+                Q(topics__name__icontains=query) |
+                Q(topics__subject__name__icontains=query)
+            ).distinct()
+            filtered_questions = Question.objects.filter(
+                Q(title__icontains=query) |
+                Q(content__icontains=query) |
+                Q(topics__name__icontains=query) |
+                Q(topics__subject__name__icontains=query)
+            ).distinct()
+
+            # Prepare the data to be returned in JSON format
+            data = {
+                'subjects': list(filtered_subjects.values('name', 'description', 'auto_slug')),
+                'topics': list(filtered_topics.values('name', 'description', 'auto_slug', 'subject__name')),
+                'notes': list(filtered_notes.values('title', 'content', 'auto_slug', 'uploaded_by__username')),
+                'questions': list(filtered_questions.values('title', 'content', 'auto_slug', 'added_by__username'))
+            }
+
+            return JsonResponse(data)
+        else:
+            return JsonResponse({'error': 'Query parameter is required'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 def signup_view(request):
     if request.method == 'POST':

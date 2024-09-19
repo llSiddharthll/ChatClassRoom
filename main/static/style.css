@@ -1,0 +1,5 @@
+
+    /* Tailwind's typography plugin applies text-center to th by default, so we override it */
+    .prose table th {
+        text-align: left; /* Align table headers to the start */
+    }
