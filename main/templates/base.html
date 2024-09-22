@@ -40,7 +40,8 @@
     <link rel="stylesheet" href="{% static 'src/output.css' %}">
     {% endcompress %}
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
     <script>hljs.highlightAll();</script>
@@ -122,20 +123,19 @@
                     <input type="text" id="search-navbar"
                         class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                         placeholder="Search..." oninput="search(this.value)">
-                    <table class="hidden absolute -bottom-32 left-0 z-40 p-4 rounded-lg bg-white table-auto">
-                        <thead>
-                            <tr>
-                                <th>Song</th>
+
+                    <table
+                        class="navbar-table hidden absolute top-12 max-h-72 w-96 overflow-y-scroll right-0 z-40 p-4 rounded-lg bg-gray-100 table-auto custom-shadow">
+                        <thead class="text-left">
+                            <tr class="border-b-2 border-gray-500">
+                                <th class="px-2">Title</th>
+                                <th class="px-2">Link</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-                                <td>Malcolm Lockyer</td>
-                                <td>1961</td>
-                            </tr>
+                        <tbody id="resultsBodyDesktop" class="">
                         </tbody>
                     </table>
+
                 </div>
 
                 <!-- Mobile Menu Toggle -->
@@ -185,17 +185,16 @@
                     </div>
                     <input type="text" id="search-navbar"
                         class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Search...">
-                    <table class="absolute hidden bottom-0 left-0 z-40 p-4 rounded-lg bg-white table-auto">
-                        <thead>
-                            <tr>
-                                <th></th>
+                        placeholder="Search..." oninput="search(this.value)">
+                    <table
+                        class="navbar-table hidden absolute top-12 max-h-64 w-96 transform -translate-x-1/2 overflow-y-scroll left-1/2 z-40 p-4 rounded-lg bg-gray-100 table-auto custom-shadow">
+                        <thead class="text-left">
+                            <tr class="border-b-2 border-gray-500">
+                                <th class="px-2">Title</th>
+                                <th class="px-2">Link</th>
                             </tr>
                         </thead>
-                        <tbody id="resultsBody">
-                            <tr>
-                                <td></td>
-                            </tr>
+                        <tbody id="resultsBodyMobile" class="">
                         </tbody>
                     </table>
                 </div>
@@ -271,61 +270,106 @@
         </script>
 
     <script>
+        // Add debounce to delay search request until user stops typing
+        let debounceTimeout;
         function search(query) {
-            if (query) {
-                $("table").removeClass("hidden");
-                axios
-                    .get(`/get_data/${query}/`)
-                    .then(function (response) {
-                        let data = response.data;
-                        console.log(data);
+            if (query.length > 2) {
 
-                        // Clear any previous results
-                        let tableBody = document.getElementById('resultsBody');
-                        tableBody.innerHTML = '';
+                clearTimeout(debounceTimeout);
+                debounceTimeout = setTimeout(() => {
+                    if (query) {
+                        axios
+                            .get(`/get_data/${query}/`)
+                            .then(function (response) {
+                                let data = response.data;
 
-                        // Helper function to create and append rows to the table
-                        function addRows(items, headers) {
-                            items.forEach(item => {
-                                console.log(item)
-                                console.log(headers)
-                                let row = document.createElement('tr');
+                                // Clear previous results and show the tables
+                                let tableBodyDesktop = document.getElementById('resultsBodyDesktop');
+                                let tableBodyMobile = document.getElementById('resultsBodyMobile');
 
-                                headers.forEach(header => {
-                                    let cell = document.createElement('td');
-                                    cell.textContent = item[header] || ''; // Handle missing fields gracefully
-                                    row.appendChild(cell);
-                                });
+                                tableBodyDesktop.innerHTML = '';
+                                tableBodyMobile.innerHTML = '';
 
-                                tableBody.appendChild(row);
+                                // Show tables if hidden
+                                $("table").removeClass("hidden").addClass("block");
+
+                                // Helper function to add rows to both tables
+                                function addRows(items, headers, type) {
+                                    items.forEach(item => {
+                                        console.log(item, headers, type);
+
+                                        // Create row for desktop
+                                        let rowDesktop = document.createElement('tr');
+                                        rowDesktop.classList.add('border-b-2', 'border-gray-300', 'hover:bg-gray-200');
+
+                                        // Create row for mobile
+                                        let rowMobile = document.createElement('tr');
+                                        rowMobile.classList.add('border-b-2', 'border-gray-300', 'hover:bg-gray-200');
+
+                                        // Add content for both tables
+                                        let cellDesktop = document.createElement('td');
+                                        cellDesktop.classList.add('py-1.5', 'px-2', 'line-clamp-1');
+                                        cellDesktop.textContent = item[headers[0]] || '';
+                                        rowDesktop.appendChild(cellDesktop);
+
+                                        let cellMobile = document.createElement('td');
+                                        cellMobile.classList.add('py-1.5', 'px-2', 'line-clamp-1');
+                                        cellMobile.textContent = item[headers[0]] || '';
+                                        rowMobile.appendChild(cellMobile);
+
+                                        // Add link logic (for notes, subjects, topics)
+                                        if (type === 'note' && item.topics && item.topics.length > 0) {
+                                            cellDesktop = document.createElement('td');
+                                            cellDesktop.classList.add('py-1.5', 'px-2');
+                                            cellDesktop.innerHTML = `<a class="text-blue-700 underline text-nowrap" href="/notes/${item.topics[0].subject_slug}/${item.topics[0].topic_slug}/${item.auto_slug}/">Let's Go</a>`;
+                                            rowDesktop.appendChild(cellDesktop);
+
+                                            cellMobile = document.createElement('td');
+                                            cellMobile.classList.add('py-1.5', 'px-2');
+                                            cellMobile.innerHTML = `<a class="text-blue-700 underline text-nowrap" href="/notes/${item.topics[0].subject_slug}/${item.topics[0].topic_slug}/${item.auto_slug}/">Let's Go</a>`;
+                                            rowMobile.appendChild(cellMobile);
+                                        } else if (type === 'subject') {
+                                            cellDesktop = document.createElement('td');
+                                            cellDesktop.classList.add('py-1.5', 'px-2');
+                                            cellDesktop.innerHTML = `<a class="text-blue-700 underline text-nowrap" href="/topics/${item.auto_slug}/">Let's Go</a>`;
+                                            rowDesktop.appendChild(cellDesktop);
+
+                                            cellMobile = document.createElement('td');
+                                            cellMobile.classList.add('py-1.5', 'px-2');
+                                            cellMobile.innerHTML = `<a class="text-blue-700 underline text-nowrap" href="/topics/${item.auto_slug}/">Let's Go</a>`;
+                                            rowMobile.appendChild(cellMobile);
+                                        } else if (type === 'topic') {
+                                            cellDesktop = document.createElement('td');
+                                            cellDesktop.classList.add('py-1.5', 'px-2');
+                                            cellDesktop.innerHTML = `<a class="text-blue-700 underline text-nowrap" href="/topics/${item.subject__auto_slug}/detail/${item.auto_slug}/">Let's Go</a>`;
+                                            rowDesktop.appendChild(cellDesktop);
+
+                                            cellMobile = document.createElement('td');
+                                            cellMobile.classList.add('py-1.5', 'px-2');
+                                            cellMobile.innerHTML = `<a class="text-blue-700 underline text-nowrap" href="/topics/${item.subject__auto_slug}/detail/${item.auto_slug}/">Let's Go</a>`;
+                                            rowMobile.appendChild(cellMobile);
+                                        }
+
+                                        // Append rows to both tables
+                                        tableBodyDesktop.appendChild(rowDesktop);
+                                        tableBodyMobile.appendChild(rowMobile);
+                                    });
+                                }
+
+                                // Add rows for subjects, topics, and notes
+                                if (data.subjects) addRows(data.subjects, ['name', 'auto_slug'], 'subject');
+                                if (data.topics) addRows(data.topics, ['name', 'auto_slug'], 'topic');
+                                if (data.notes) addRows(data.notes, ['title', 'auto_slug', 'topics'], 'note');
+                            })
+                            .catch(function (error) {
+                                console.log("Something went wrong:", error);
                             });
-                        }
-
-                        // Add rows for subjects
-                        if (data.subjects) {
-                            addRows(data.subjects, ['name', 'description', 'auto_slug']);
-                        }
-                        // Add rows for topics
-                        if (data.topics) {
-                            addRows(data.topics, ['name', 'description', 'auto_slug', 'subject__name']);
-                        }
-                        // Add rows for notes
-                        if (data.notes) {
-                            addRows(data.notes, ['title', 'content', 'auto_slug', 'uploaded_by__username']);
-                        }
-                        // Add rows for questions
-                        if (data.questions) {
-                            addRows(data.questions, ['title', 'content', 'auto_slug', 'added_by__username']);
-                        }
-
-                    })
-                    .catch(function (error) {
-                        console.log("Something went wrong:", error);
-                    });
+                    }
+                }, 100); // Delay search by 300ms
             }
         }
-
     </script>
+
     <script src="{% static 'flowbite.min.js' %}"></script>
 </body>
 

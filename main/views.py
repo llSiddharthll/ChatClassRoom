@@ -11,36 +11,50 @@ from django.db.models import Q
 def get_data(request, query):
     if request.method == 'GET':
         if query:
-            # Filter subjects, topics, notes, and questions based on the query
+            # Optimize queries by combining related filters and selecting only required fields
             filtered_subjects = Subject.objects.filter(
-                Q(name__icontains=query) |
-                Q(description__icontains=query)
-            )
+                Q(name__icontains=query)
+            ).only('name', 'auto_slug')
+
             filtered_topics = Topic.objects.filter(
                 Q(name__icontains=query) |
-                Q(description__icontains=query) |
                 Q(subject__name__icontains=query) |
                 Q(subject__description__icontains=query)
-            )
+            ).only('name', 'auto_slug', 'subject__name')
+
             filtered_notes = Note.objects.filter(
                 Q(title__icontains=query) |
-                Q(content__icontains=query) |
                 Q(topics__name__icontains=query) |
                 Q(topics__subject__name__icontains=query)
-            ).distinct()
+            ).distinct().prefetch_related('topics__subject').only('title', 'auto_slug', 'uploaded_by__username')
+
             filtered_questions = Question.objects.filter(
                 Q(title__icontains=query) |
-                Q(content__icontains=query) |
                 Q(topics__name__icontains=query) |
                 Q(topics__subject__name__icontains=query)
-            ).distinct()
+            ).distinct().only('title', 'auto_slug', 'added_by__username')
 
             # Prepare the data to be returned in JSON format
             data = {
-                'subjects': list(filtered_subjects.values('name', 'description', 'auto_slug')),
-                'topics': list(filtered_topics.values('name', 'description', 'auto_slug', 'subject__name')),
-                'notes': list(filtered_notes.values('title', 'content', 'auto_slug', 'uploaded_by__username')),
-                'questions': list(filtered_questions.values('title', 'content', 'auto_slug', 'added_by__username'))
+                'subjects': list(filtered_subjects.values('name', 'auto_slug')),
+                'topics': list(filtered_topics.values('name', 'auto_slug', 'subject__auto_slug')),
+                'notes': [
+                    {
+                        'title': note.title,
+                        'auto_slug': note.auto_slug,
+                        'uploaded_by': note.uploaded_by.username,
+                        'topics': [
+                            {
+                                'name': topic.name,
+                                'topic_slug': topic.auto_slug,
+                                'subject_slug': topic.subject.auto_slug,  # Get subject slug here
+                            }
+                            for topic in note.topics.all()
+                        ]
+                    }
+                    for note in filtered_notes
+                ],
+                'questions': list(filtered_questions.values('title', 'auto_slug', 'added_by__username'))
             }
 
             return JsonResponse(data)

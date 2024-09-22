@@ -2037,11 +2037,6 @@ select {
   --tw-prose-invert-td-borders: #3f3f46;
 }
 
-.prose-indigo {
-  --tw-prose-links: #4f46e5;
-  --tw-prose-invert-links: #6366f1;
-}
-
 .sr-only {
   position: absolute;
   width: 1px;
@@ -2095,10 +2090,6 @@ select {
   bottom: 0px;
 }
 
-.-bottom-32 {
-  bottom: -8rem;
-}
-
 .bottom-0 {
   bottom: 0px;
 }
@@ -2137,6 +2128,14 @@ select {
 
 .top-10 {
   top: 2.5rem;
+}
+
+.top-12 {
+  top: 3rem;
+}
+
+.left-1\/2 {
+  left: 50%;
 }
 
 .z-10 {
@@ -2278,6 +2277,13 @@ select {
   margin-top: 2rem;
 }
 
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
 .block {
   display: block;
 }
@@ -2374,6 +2380,14 @@ select {
   height: 100vh;
 }
 
+.max-h-64 {
+  max-height: 16rem;
+}
+
+.max-h-72 {
+  max-height: 18rem;
+}
+
 .min-h-full {
   min-height: 100%;
 }
@@ -2442,12 +2456,20 @@ select {
   width: 2rem;
 }
 
+.w-96 {
+  width: 24rem;
+}
+
 .w-\[4\.5rem\] {
   width: 4.5rem;
 }
 
 .w-full {
   width: 100%;
+}
+
+.w-80 {
+  width: 20rem;
 }
 
 .max-w-2xl {
@@ -2524,6 +2546,11 @@ select {
 
 .translate-y-full {
   --tw-translate-y: 100%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.-translate-x-1\/2 {
+  --tw-translate-x: -50%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -2735,6 +2762,10 @@ select {
   white-space: nowrap;
 }
 
+.text-nowrap {
+  text-wrap: nowrap;
+}
+
 .rounded {
   border-radius: 0.25rem;
 }
@@ -2880,6 +2911,11 @@ select {
 .border-gray-300 {
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
+}
+
+.border-gray-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(107 114 128 / var(--tw-border-opacity));
 }
 
 .border-indigo-500 {
@@ -3229,6 +3265,10 @@ select {
   padding-top: 0.5rem;
 }
 
+.text-left {
+  text-align: left;
+}
+
 .text-center {
   text-align: center;
 }
@@ -3501,6 +3541,13 @@ select {
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
 
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
 /* Tailwind's typography plugin applies text-center to th by default, so we override it */
 
 .prose table th {
@@ -3512,6 +3559,48 @@ select {
   display: block;
   overflow-x: auto;
   /* Horizontal scrolling */
+}
+
+.custom-shadow{
+  box-shadow: 0px 0px 15px rgba(0, 30, 255, 0.6);
+}
+
+.custom-shadow-topics{
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Custom scrollbar for WebKit browsers (Chrome, Safari) */
+
+.navbar-table::-webkit-scrollbar {
+  width: 6px;
+  /* Width of the scrollbar */
+}
+
+/* The track (background) */
+
+.navbar-table::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  /* Light grey background for the track */
+  border-radius: 10px;
+  /* Optional: round the corners of the track */
+}
+
+/* The handle (scrollbar thumb) */
+
+.navbar-table::-webkit-scrollbar-thumb {
+  background-color: #888;
+  /* Darker grey for the thumb */
+  border-radius: 10px;
+  /* Round the corners of the thumb */
+  border: 2px solid #f1f1f1;
+  /* Optional: add a border around the thumb to create padding */
+}
+
+/* Thumb hover effect */
+
+.navbar-table::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+  /* Darker shade of grey when hovered */
 }
 
 .hover\:-translate-y-1:hover {
@@ -4070,6 +4159,18 @@ select {
 }
 
 @media (min-width: 1024px) {
+  .lg\:block {
+    display: block;
+  }
+
+  .lg\:flex {
+    display: flex;
+  }
+
+  .lg\:hidden {
+    display: none;
+  }
+
   .lg\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
