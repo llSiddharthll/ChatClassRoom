@@ -2159,10 +2159,6 @@ select {
   z-index: 50;
 }
 
-.m-2 {
-  margin: 0.5rem;
-}
-
 .m-4 {
   margin: 1rem;
 }
@@ -3512,8 +3508,10 @@ select {
   /* Align table headers to the start */
 }
 
-.prose table{
-  overflow: auto;
+.prose table {
+  display: block;
+  overflow-x: auto;
+  /* Horizontal scrolling */
 }
 
 .hover\:-translate-y-1:hover {
@@ -3896,6 +3894,10 @@ select {
 
   .md\:order-2 {
     order: 2;
+  }
+
+  .md\:m-2 {
+    margin: 0.5rem;
   }
 
   .md\:mb-16 {
