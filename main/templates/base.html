@@ -35,9 +35,7 @@
     <!-- <link rel="stylesheet" href="{% static 'styles.css' %}" /> -->
     <link rel="shortcut icon" href="{% static 'images/logo.ico' %}" type="image/x-icon" />
 
-    <link rel="stylesheet" href="{% static 'style.css' %}">
     <!-- External CSS and JavaScript Libraries -->
-
     {% compress css %}
     <link rel="stylesheet" href="{% static 'src/output.css' %}">
     {% endcompress %}
@@ -261,7 +259,7 @@
 
     <main class="pt-16 max-w-full h-full flex rounded-lg">
         <!-- Container -->
-        <div class="h-full w-full m-2 rounded-lg ">
+        <div class="h-full w-full m-2 rounded-lg px-6">
             <!-- Content Container -->
             {% block content %}{% endblock %}
         </div>
