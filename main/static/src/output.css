@@ -3139,10 +3139,6 @@ select {
   padding: 2rem;
 }
 
-.p-10 {
-  padding: 2.5rem;
-}
-
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -3514,6 +3510,10 @@ select {
 .prose table th {
   text-align: left;
   /* Align table headers to the start */
+}
+
+.prose table{
+  overflow: auto;
 }
 
 .hover\:-translate-y-1:hover {
@@ -4000,14 +4000,6 @@ select {
 
   .md\:p-8 {
     padding: 2rem;
-  }
-
-  .md\:p-10 {
-    padding: 2.5rem;
-  }
-
-  .md\:p-2 {
-    padding: 0.5rem;
   }
 
   .md\:px-10 {

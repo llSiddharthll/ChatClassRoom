@@ -6,3 +6,6 @@
 .prose table th {
     text-align: left; /* Align table headers to the start */
 }
+.prose table{
+    overflow: auto;
+}
