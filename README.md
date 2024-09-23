@@ -3,7 +3,7 @@ _A platform to share and explore notes, questions, and chat with friends!_
 
 ![Django](https://img.shields.io/badge/Django-v4.2.1-green) ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v3.3.2-blue) ![MIT License](https://img.shields.io/badge/License-MIT-yellow)
 
-🚀 **Live Demo**: [ChatClassRoom](https://yourwebsite.pythonanywhere.com)
+🚀 **Live Demo**: [ChatClassRoom](https://lsiddharthl.pythonanywhere.com/)
 
 ## 📝 **Project Overview**
 Welcome to **ChatClassRoom**! This platform is built using **Django** and powered by some awesome technologies like **Django Allauth**, **Cloudinary**, **SQLite3**, and **Tailwind CSS** to give you a seamless, responsive, and visually appealing experience.  
@@ -81,7 +81,7 @@ Here's a sneak peek of our beautifully designed UI!
 
 | 🖥️ Desktop View | 📱 Mobile View |
 |-----------------|----------------|
-| ![Desktop](https://your-desktop-screenshot-link.png) | ![Mobile](https://your-mobile-screenshot-link.png) |
+| ![Desktop](desktop.png) | ![Mobile](mobile.png) |
 
 ## 🔧 **Future Enhancements**
 - 🗣️ **Real-time Chat**: Let users communicate and collaborate instantly!
