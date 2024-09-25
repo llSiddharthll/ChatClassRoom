@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div class="container mx-auto my-10 px-4 lg:px-8">
+<div class="container mx-auto my-10 px-4 lg:px-0">
     <!-- Subtopic Title -->
     <div class="mb-8">
         <nav class="text-gray-700">
@@ -52,7 +52,7 @@
                     class="mb-6 p-6 bg-white rounded-lg custom-shadow-topics transition-transform transform hover:-translate-y-1">
 
                     <h3
-                        class="text-2xl font-semibold text-gray-800 group-hover:text-indigo-600 transition-colors duration-300">
+                        class="text-lg md:text-xl lg:text-2xl font-semibold text-gray-800 group-hover:text-indigo-600 transition-colors duration-300">
                         {{ note.title }}
                     </h3>
 
@@ -90,7 +90,7 @@
                 <div
                     class="mb-6 p-6 bg-white rounded-lg custom-shadow-topics transition-transform transform hover:-translate-y-1">
                     <h3
-                        class="text-2xl font-semibold text-gray-800 group-hover:text-indigo-600 transition-colors duration-300">
+                        class="text-lg md:text-xl lg:text-2xl font-semibold text-gray-800 group-hover:text-indigo-600 transition-colors duration-300">
                         {{ question.title }}
                     </h3>
                 </div>
