@@ -332,3 +332,6 @@ def edit_profile(request):
         'form': form,
     }
     return render(request, 'edit_profile.html', context)
+
+def chat(request):
+    return render(request, 'chat.html') 
