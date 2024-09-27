@@ -67,7 +67,7 @@ To run this project locally:
 ```
 ChatClassRoom/
 ├── ChatClassRoom/         # Project settings
-├── notes/                 # App handling notes and questions
+├── main/                  # App handling notes and questions
 ├── static/                # Static assets like Tailwind CSS
 ├── templates/             # HTML templates
 ├── media/                 # Uploaded media (handled by Cloudinary)
