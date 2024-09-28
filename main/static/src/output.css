@@ -2895,6 +2895,11 @@ select {
   border-top-width: 4px;
 }
 
+.border-black {
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
+}
+
 .border-blue-500 {
   --tw-border-opacity: 1;
   border-color: rgb(63 131 248 / var(--tw-border-opacity));
@@ -3467,6 +3472,16 @@ select {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+.shadow-gray-500 {
+  --tw-shadow-color: #6B7280;
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
+.shadow-gray-700 {
+  --tw-shadow-color: #374151;
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
 .outline {
   outline-style: solid;
 }
@@ -3560,6 +3575,15 @@ select {
   box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.3);
 }
 
+.custom-shadow-chat{
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.custom-shadow-chat:hover{
+  box-shadow: 0 0 12px #ff000056,
+    -1px -1px 12px #ff000064;
+}
+
 /* Custom scrollbar for WebKit browsers (Chrome, Safari) */
 
 .navbar-table::-webkit-scrollbar {
@@ -3608,6 +3632,12 @@ select {
 .hover\:scale-110:hover {
   --tw-scale-x: 1.1;
   --tw-scale-y: 1.1;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.hover\:scale-\[1\.02\]:hover {
+  --tw-scale-x: 1.02;
+  --tw-scale-y: 1.02;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 

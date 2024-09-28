@@ -21,7 +21,14 @@
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.3);
 
 }
+.custom-shadow-chat{
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
 
+.custom-shadow-chat:hover{
+    box-shadow: 0 0 12px #ff000056,
+    -1px -1px 12px #ff000064;
+}
 /* Custom scrollbar for WebKit browsers (Chrome, Safari) */
 .navbar-table::-webkit-scrollbar {
     width: 6px;  /* Width of the scrollbar */

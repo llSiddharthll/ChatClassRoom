@@ -7,6 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.http import JsonResponse
 from django.db.models import Q
+from django.contrib.auth.models import User
 
 def get_data(request, query):
     if request.method == 'GET':
@@ -334,4 +335,5 @@ def edit_profile(request):
     return render(request, 'edit_profile.html', context)
 
 def chat(request):
-    return render(request, 'chat.html') 
+    all_users = User.objects.exclude(id=request.user.id)
+    return render(request, 'chat.html', {'all_users': all_users}) 
