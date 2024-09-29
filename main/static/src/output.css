@@ -2472,6 +2472,11 @@ select {
   width: 73%;
 }
 
+.w-fit {
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
 .w-full {
   width: 100%;
 }
@@ -2490,6 +2495,10 @@ select {
 
 .max-w-\[320px\] {
   max-width: 320px;
+}
+
+.max-w-\[500px\] {
+  max-width: 500px;
 }
 
 .max-w-full {
@@ -2764,6 +2773,10 @@ select {
 
 .overflow-x-auto {
   overflow-x: auto;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
 }
 
 .overflow-y-hidden {
@@ -3233,6 +3246,11 @@ select {
   padding-bottom: 8rem;
 }
 
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
 .pe-2 {
   padding-inline-end: 0.5rem;
 }
@@ -3267,6 +3285,10 @@ select {
 
 .text-center {
   text-align: center;
+}
+
+.text-end {
+  text-align: end;
 }
 
 .text-2xl {
@@ -3579,9 +3601,14 @@ select {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
 
-.custom-shadow-chat:hover{
-  box-shadow: 0 0 12px #ff000056,
+/* .custom-shadow-chat:hover{
+    box-shadow: 0 0 12px #ff000056,
     -1px -1px 12px #ff000064;
+} */
+
+.chatbox-content::-webkit-scrollbar {
+  width: 6px;
+  /* Width of the scrollbar */
 }
 
 /* Custom scrollbar for WebKit browsers (Chrome, Safari) */

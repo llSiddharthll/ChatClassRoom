@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Subject, Topic, Note, Question, Comment, UserProfile
+from .models import Subject, Topic, Note, Question, Comment, UserProfile, ChatMessage
 from .forms import NoteForm, QuestionForm, CommentForm, UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
@@ -335,5 +335,29 @@ def edit_profile(request):
     return render(request, 'edit_profile.html', context)
 
 def chat(request):
-    all_users = User.objects.exclude(id=request.user.id)
-    return render(request, 'chat.html', {'all_users': all_users}) 
+    all_users = User.objects.exclude(id=request.user.id)  # Exclude the current user
+    return render(request, 'chat.html', {'all_users': all_users})
+
+def get_messages(request, user_id):
+    # Fetch messages between the current user and the selected user (user_id)
+    selected_user = User.objects.get(id=user_id)
+    messages = ChatMessage.objects.filter(
+        sender__in=[request.user, selected_user],
+        receiver__in=[request.user, selected_user]
+    ).order_by('sent_at')
+    
+    # Serialize the messages to send via JSON
+    chat_messages = [
+        {
+            'sender': msg.sender.username,
+            'receiver': msg.receiver.username,
+            'content': msg.content,
+            'sent_at': msg.sent_at.strftime('%H:%M'),
+            'sender_pfp': msg.sender.userprofile.pfp.url if msg.sender.userprofile.pfp else '',
+            'receiver_pfp': msg.receiver.userprofile.pfp.url if msg.receiver.userprofile.pfp else ''
+        }
+        for msg in messages
+    ]
+    print(chat_messages)
+    
+    return JsonResponse({'messages': chat_messages})

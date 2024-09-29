@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'compressor',
 
     # Your apps
-    'main',
+    'main.apps.MainConfig',
     
     # Third-party apps
     'django.contrib.sites',  # Required for allauth

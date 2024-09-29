@@ -21,4 +21,5 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('signup/', views.signup_view, name='signup'),
     path('get_data/<str:query>/', views.get_data, name='get_data'),
+    path('chat/get_messages/<int:user_id>/', views.get_messages, name='get_user_messages'),
 ]
