@@ -84,4 +84,4 @@ class ChatMessage(models.Model):
     sent_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.content[:50]  # Show a snippet of the message
+        return f"Message from {self.sender} to {self.receiver}"  # Show a snippet of the message

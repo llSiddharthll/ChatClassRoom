@@ -5,7 +5,7 @@ from .forms import NoteForm, QuestionForm, CommentForm, UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseBadRequest
 from django.db.models import Q
 from django.contrib.auth.models import User
 
@@ -334,9 +334,70 @@ def edit_profile(request):
     }
     return render(request, 'edit_profile.html', context)
 
-def chat(request):
-    all_users = User.objects.exclude(id=request.user.id)  # Exclude the current user
-    return render(request, 'chat.html', {'all_users': all_users})
+
+def users(request):
+    all_users = User.objects.exclude(id=request.user.id)
+    users_with_room = []
+    
+    for user in all_users:
+        room_name = get_room_name(request.user.id, user.id)
+        users_with_room.append([user, room_name])
+    
+    context = {
+        'users_with_room': users_with_room
+    }
+    return render(request, 'users.html', context)
+
+def chat(request, room_name):
+    # Split room_name into user_id_1 and user_id_2
+    try:
+        prefix, user_id_1, user_id_2 = room_name.split('_')
+        if prefix != "room":  # Ensure room name format starts with "room"
+            return HttpResponseBadRequest("Invalid room name format")
+    except ValueError:
+        return HttpResponseBadRequest("Invalid room name format")
+    
+    # Ensure both user IDs are integers
+    try:
+        user_id_1 = int(user_id_1)
+        user_id_2 = int(user_id_2)
+    except ValueError:
+        return HttpResponseBadRequest("Invalid user IDs in room name")
+
+    # Identify the other user
+    if request.user.id == user_id_1:
+        other_user_id = user_id_2
+    elif request.user.id == user_id_2:
+        other_user_id = user_id_1
+    else:
+        return HttpResponseBadRequest("Current user not part of this room")
+
+    # Fetch the other user
+    try:
+        other_user = User.objects.get(id=other_user_id)
+    except User.DoesNotExist:
+        return HttpResponseBadRequest("Other user does not exist")
+
+    # Retrieve chat messages between both users
+    messages = ChatMessage.objects.filter(
+        sender__in=[request.user, other_user],
+        receiver__in=[request.user, other_user]
+    ).order_by('sent_at')
+
+    # Pass the room name, other user, and messages to the template
+    context = {
+        'room_name': room_name,
+        'user': other_user,
+        'messages': messages
+    }
+    return render(request, 'chat.html', context)
+
+
+def get_room_name(id1, id2):
+    if id1 < id2:
+        return f'room_{id1}_{id2}'
+    else:
+        return f'room_{id2}_{id1}'
 
 def get_messages(request, user_id):
     # Fetch the selected user

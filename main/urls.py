@@ -12,7 +12,7 @@ urlpatterns = [
     path('create_question/', views.create_question, name='create_question'),
     path('notes/<int:note_pk>/comments/create/', views.create_comment_note, name='create_comment_note'),
     path('questions/<int:question_pk>/comments/create/', views.create_comment_question, name='create_comment_question'),
-    path('chat/', views.chat, name='chat'),
+    path('chat/<str:room_name>/', views.chat, name='chat'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('note/<int:topic_id>/comment/', views.add_note_comment, name='add_note_comment'),
     path('question/<int:topic_id>/comment/', views.add_question_comment, name='add_question_comment'),
@@ -23,4 +23,5 @@ urlpatterns = [
     path('get_data/<str:query>/', views.get_data, name='get_data'),
     path('chat/get_messages/<int:user_id>/', views.get_messages, name='get_user_messages'),
     path('send_message/', views.send_message, name='send_message'),
+    path('users/', views.users, name='users'),
 ]
