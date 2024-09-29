@@ -32,6 +32,9 @@
 .chatbox-content::-webkit-scrollbar {
     width: 6px;  /* Width of the scrollbar */
 }
+.chatbox-main::-webkit-scrollbar {
+    width: 6px;  /* Width of the scrollbar */
+}
 /* Custom scrollbar for WebKit browsers (Chrome, Safari) */
 .navbar-table::-webkit-scrollbar {
     width: 6px;  /* Width of the scrollbar */

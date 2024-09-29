@@ -339,13 +339,15 @@ def chat(request):
     return render(request, 'chat.html', {'all_users': all_users})
 
 def get_messages(request, user_id):
-    # Fetch messages between the current user and the selected user (user_id)
+    # Fetch the selected user
     selected_user = User.objects.get(id=user_id)
+    
+    # Fetch messages between the current user and the selected user
     messages = ChatMessage.objects.filter(
         sender__in=[request.user, selected_user],
         receiver__in=[request.user, selected_user]
     ).order_by('sent_at')
-    
+
     # Serialize the messages to send via JSON
     chat_messages = [
         {
@@ -358,6 +360,23 @@ def get_messages(request, user_id):
         }
         for msg in messages
     ]
-    print(chat_messages)
-    
-    return JsonResponse({'messages': chat_messages})
+
+    # User details for the header (you can customize the details you want to send)
+    user_details = {
+        'username': selected_user.username,
+        'first_name': selected_user.first_name,
+        'last_name': selected_user.last_name,
+        'profile_pic': selected_user.userprofile.pfp.url if selected_user.userprofile.pfp else '',
+    }
+
+    return JsonResponse({'messages': chat_messages, 'user': user_details})
+
+def send_message(request):
+    if request.method == 'POST':
+        sender = request.user
+        receiver = User.objects.get(id=request.POST.get('receiver_id'))
+        content = request.POST.get('content')
+        ChatMessage.objects.create(sender=sender, receiver=receiver, content=content)
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'success': False})

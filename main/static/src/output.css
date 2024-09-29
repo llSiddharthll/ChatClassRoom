@@ -2324,6 +2324,10 @@ select {
   height: 2.5rem;
 }
 
+.h-12 {
+  height: 3rem;
+}
+
 .h-16 {
   height: 4rem;
 }
@@ -2368,6 +2372,10 @@ select {
   height: 4.5rem;
 }
 
+.h-\[calc\(100\%-12\%\)\] {
+  height: calc(100% - 12%);
+}
+
 .h-\[calc\(100vh-11vh\)\] {
   height: calc(100vh - 11vh);
 }
@@ -2378,6 +2386,14 @@ select {
 
 .h-screen {
   height: 100vh;
+}
+
+.h-\[calc\(100\%-20\%\)\] {
+  height: calc(100% - 20%);
+}
+
+.h-\[calc\(100\%-18\%\)\] {
+  height: calc(100% - 18%);
 }
 
 .max-h-64 {
@@ -2406,6 +2422,10 @@ select {
 
 .w-10 {
   width: 2.5rem;
+}
+
+.w-12 {
+  width: 3rem;
 }
 
 .w-16 {
@@ -2614,12 +2634,6 @@ select {
 
 .cursor-pointer {
   cursor: pointer;
-}
-
-.select-none {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
 }
 
 .resize {
@@ -2862,6 +2876,11 @@ select {
 .rounded-s-lg {
   border-start-start-radius: 0.5rem;
   border-end-start-radius: 0.5rem;
+}
+
+.rounded-t-xl {
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
 }
 
 .rounded-es-xl {
@@ -3607,6 +3626,11 @@ select {
 } */
 
 .chatbox-content::-webkit-scrollbar {
+  width: 6px;
+  /* Width of the scrollbar */
+}
+
+.chatbox-main::-webkit-scrollbar {
   width: 6px;
   /* Width of the scrollbar */
 }

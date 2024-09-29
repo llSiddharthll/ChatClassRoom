@@ -22,4 +22,5 @@ urlpatterns = [
     path('signup/', views.signup_view, name='signup'),
     path('get_data/<str:query>/', views.get_data, name='get_data'),
     path('chat/get_messages/<int:user_id>/', views.get_messages, name='get_user_messages'),
+    path('send_message/', views.send_message, name='send_message'),
 ]
