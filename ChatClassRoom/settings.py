@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     # Your apps
     'main.apps.MainConfig',
+    'rest_framework',
     
     # Third-party apps
     'django.contrib.sites',  # Required for allauth
