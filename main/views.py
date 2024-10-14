@@ -420,7 +420,7 @@ def chat(request, room_name):
     }
     return render(request, 'chat.html', context)
 
-
+# It will provide a common room to to both the users
 def get_room_name(id1, id2):
     if id1 < id2:
         return f'room_{id1}_{id2}'

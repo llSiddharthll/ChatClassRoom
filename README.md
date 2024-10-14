@@ -99,4 +99,4 @@ This project is licensed under the MIT License – see the [LICENSE](LICENSE) fi
 ---
 
 Thank you for checking out **ChatClassRoom**!  
-💡 *"Empowering students to learn, collaborate, and succeed!"* 💡
+💡 *"Empowering students and developers to learn, collaborate, and succeed!"* 💡
