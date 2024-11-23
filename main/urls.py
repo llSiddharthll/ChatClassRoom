@@ -24,5 +24,5 @@ urlpatterns = [
     path('chat/get_messages/<int:user_id>/', views.get_messages, name='get_user_messages'),
     path('send_message/', views.send_message, name='send_message'),
     path('users/', views.users, name='users'),
-    path('scrape/', views.scrape_postcode, name='scrape_postcode'),
+    path('recent_notes/', views.recent_notes, name='recent_notes'),
 ]

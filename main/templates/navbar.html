@@ -129,6 +129,12 @@
                         <span><i class="fa-solid fa-book"></i></span><span>Subjects</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{% url 'recent_notes' %}"
+                        class="flex items-center gap-2 py-2 px-3 {% if request.resolver_match.url_name == 'recent' %}text-blue-700{% else %}text-gray-900 hover:text-blue-700{% endif %} rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0">
+                        <span><i class="fa-solid fa-thumbtack"></i></span><span>Recent Notes</span>
+                    </a>
+                </li>
                 {% if request.user.is_authenticated %}
                 <li>
                     <a href="{% url 'users' %}"
