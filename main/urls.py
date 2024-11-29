@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path("", views.home, name="home"),
@@ -25,4 +26,5 @@ urlpatterns = [
     path('send_message/', views.send_message, name='send_message'),
     path('users/', views.users, name='users'),
     path('recent_notes/', views.recent_notes, name='recent_notes'),
+    path('serviceworker.js', TemplateView.as_view(template_name="serviceworker.js", content_type='application/javascript')),
 ]

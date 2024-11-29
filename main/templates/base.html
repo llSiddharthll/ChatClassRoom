@@ -40,8 +40,7 @@
     <link rel="stylesheet" href="{% static 'src/output.css' %}">
     {% endcompress %}
 
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://unpkg.com/@highlightjs/cdn-assets@11.10.0/languages/python.min.js"></script>
 
@@ -79,10 +78,10 @@
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-KH8WY6VKMC"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-KH8WY6VKMC');
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-KH8WY6VKMC');
 </script>
 
 <body class="">
@@ -90,7 +89,7 @@
     {% include "navbar.html" %}
 
     <main class="max-w-full h-full rounded-lg">
-            {% block content %}{% endblock %}
+        {% block content %}{% endblock %}
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.4/axios.min.js"
@@ -196,6 +195,16 @@
                     }
                 }, 100); // Delay search by 300ms
             }
+        }
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/serviceworker.js')
+                .then((registration) => {
+                    console.log('Service Worker registered:', registration);
+                }).catch((error) => {
+                    console.error('Service Worker registration failed:', error);
+                });
         }
     </script>
 

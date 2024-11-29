@@ -47,6 +47,9 @@ INSTALLED_APPS = [
     # Your apps
     'main.apps.MainConfig',
     'rest_framework',
+
+    # PWA
+    'pwa',
     
     # Third-party apps
     'django.contrib.sites',  # Required for allauth
@@ -246,3 +249,27 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'llsiddharthtiwarill@gmail.com'
 EMAIL_HOST_PASSWORD = 'font qeui toiz shjl'
+
+
+# PWA settings
+
+PWA_APP_NAME = 'ChatClassRoom'
+PWA_APP_DESCRIPTION = 'Where knowledge meets fun, and boredom takes a backseat. Dive in, explore, and let\'s make learning awesome!'
+PWA_APP_THEME_COLOR = '#FFFFFF'
+PWA_APP_BACKGROUND_COLOR = '#FFFFFF'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'any'
+PWA_APP_START_URL = '/'
+PWA_APP_ICONS = [
+    {
+        'src': '/static/images/logo.png',
+        'sizes': '192x192'
+    },
+    {
+        'src': '/static/images/logo.png',
+        'sizes': '512x512'
+    }
+]
+PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'en-US'
