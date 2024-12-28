@@ -316,7 +316,8 @@ def create_comment_question(request, question_pk):
     return render(request, 'comment_form.html', {'form': form})
 
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    notes = Note.objects.filter(uploaded_by = request.user)
+    return render(request, 'dashboard.html', {"notes":notes})
 
 @login_required
 def edit_profile(request):

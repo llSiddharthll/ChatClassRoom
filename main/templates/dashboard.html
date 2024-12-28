@@ -73,7 +73,7 @@
   <div class="flex-grow p-6 bg-gray-50 md:ml-64">
     <div class="max-w-7xl mx-auto">
       <!-- User Info Section -->
-      <div class="bg-white p-4 rounded-lg shadow flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div class="bg-white p-4 rounded-lg shadow flex flex-col gap-5">
         <!-- User Avatar and Info -->
         <div class="flex items-center md:w-[80%]">
           <!-- User Avatar -->
@@ -110,7 +110,7 @@
 
 
       <!-- User Actions -->
-      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-blue-100 p-4 rounded-lg shadow flex items-center justify-between">
           <div>
             <h4 class="font-semibold text-lg text-blue-600">Upload Notes</h4>
@@ -127,13 +127,13 @@
           <a href="{% url 'create_question' %}"
             class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Upload</a>
         </div>
-        <div class="bg-purple-100 p-4 rounded-lg shadow flex items-center justify-between">
+        <!-- <div class="bg-purple-100 p-4 rounded-lg shadow flex items-center justify-between">
           <div>
             <h4 class="font-semibold text-lg text-purple-600">Manage Settings</h4>
             <p class="mt-2 text-gray-600">Customize your profile and preferences.</p>
           </div>
           <a href="#" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">Settings</a>
-        </div>
+        </div> -->
       </div>
 
       <!-- Recent Notes -->
@@ -141,12 +141,20 @@
         <h3 class="text-xl font-semibold text-gray-800">Recent Notes</h3>
         <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <!-- Note Card -->
+           {% if notes %}
+           {% for note in notes|slice:3 %}
           <div class="bg-white p-4 rounded-lg shadow">
-            <h4 class="font-semibold text-lg text-blue-600">Note Title</h4>
-            <p class="mt-2 text-gray-600 truncate">This is a short preview of the note content...</p>
+            <h4 class="font-semibold text-lg text-blue-600 line-clamp-2">{{note.title}}</h4>
+            <p class="mt-2 text-gray-600 truncate">{{note.content}}</p>
             <a href="#" class="mt-4 inline-block text-blue-600 hover:underline">Read more</a>
           </div>
-          <!-- Repeat Note Card for multiple notes -->
+          {% endfor %}
+          {% else %}
+          <div class="bg-white p-4 rounded-lg shadow">
+            <h4 class="font-semibold text-lg text-blue-600 line-clamp-2">{{note.title}}</h4>
+            <p class="mt-2 text-gray-600 truncate">{{note.content}}</p>
+            <a href="#" class="mt-4 inline-block text-blue-600 hover:underline">Read more</a>
+          </div>
         </div>
       </div>
 

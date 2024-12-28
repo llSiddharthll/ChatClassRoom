@@ -1,4 +1,3 @@
-
 {% load static %}
 <nav class="sticky w-full z-20 top-0 start-0 bg-white border-2 border-gray-200">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -74,16 +73,15 @@
                 <img class="w-10 h-10 rounded-md" src="{{ request.user.userprofile.pfp.url }}" alt="user photo">
                 {% else %}
                 <img class="w-10 h-10 rounded-md"
-                    src="https://api.dicebear.com/9.x/adventurer-neutral/svg?seed={{ user.username }}"
-                    alt="user photo">
+                    src="https://api.dicebear.com/9.x/adventurer-neutral/svg?seed={{ user.username }}" alt="user photo">
                 {% endif %}
             </button>
             {% else %}
             <button type="button" class="flex text-sm bg-gray-800 rounded-md ms-2" id="user-menu-button"
                 aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                 <span class="sr-only">Open user menu</span>
-                <img class="w-10 h-10 rounded-md"
-                    src="https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=Chatter" alt="user photo">
+                <img class="w-10 h-10 rounded-md" src="https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=Chatter"
+                    alt="user photo">
             </button>
             {% endif %}
         </div>
@@ -153,17 +151,17 @@
             </ul>
         </div>
     </div>
-
+    {% if request.user.is_authenticated %}
     <!-- User Dropdown Menu -->
     <div class="z-50 hidden my-4 text-base list-none border-2 border-gray-300 bg-white divide-y divide-gray-100 rounded-lg shadow"
         id="user-dropdown">
-        {% if request.user.is_authenticated %}
+
         <div class="px-4 py-3">
             <span class="block text-sm text-gray-900 font-bold">{{request.user.first_name}}
                 {{request.user.last_name}}</span>
             <span class="block text-sm text-gray-500 font-semibold truncate ">{{request.user.email}}</span>
         </div>
-        {% endif %}
+
         <ul class="py-2" aria-labelledby="user-menu-button">
             <li>
                 <a href="{% url 'dashboard' %}"
@@ -175,4 +173,5 @@
             </li>
         </ul>
     </div>
+    {% endif %}
 </nav>
