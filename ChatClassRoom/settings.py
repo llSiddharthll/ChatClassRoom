@@ -63,9 +63,9 @@ INSTALLED_APPS = [
     
 ]
 
-COMPRESS_ROOT = BASE_DIR / 'static'
+# COMPRESS_ROOT = BASE_DIR / 'static'
 
-COMPRESS_ENABLED = True
+# COMPRESS_ENABLED = True
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # Default backend
@@ -200,7 +200,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # # The directory where collectstatic will collect static files for deployment
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'main/static')
 
 # # Additional locations of static files (do not include STATIC_ROOT here)
 # STATICFILES_DIRS = [
