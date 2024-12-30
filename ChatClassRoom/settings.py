@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-)r1dkxcc89u_@-&&7g-!_2!b_0#rfs7%7p$-qy1-v&)^6e_-4p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_tailwind',
     'widget_tweaks',
-    'compressor',
+    # 'compressor',
 
     # Your apps
     'main.apps.MainConfig',
@@ -199,20 +199,20 @@ USE_TZ = True
 # URL to use when referring to static files (where they will be served from)
 STATIC_URL = 'static/'
 
-# The directory where collectstatic will collect static files for deployment
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# # The directory where collectstatic will collect static files for deployment
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Additional locations of static files (do not include STATIC_ROOT here)
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # This is the project-wide static directory
-]
+# # Additional locations of static files (do not include STATIC_ROOT here)
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static'),  # This is the project-wide static directory
+# ]
 
-# Make sure the STATICFILES_FINDERS settings are configured correctly as well:
-STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
-]
+# # Make sure the STATICFILES_FINDERS settings are configured correctly as well:
+# STATICFILES_FINDERS = [
+#     'django.contrib.staticfiles.finders.FileSystemFinder',
+#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#     'compressor.finders.CompressorFinder',
+# ]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
