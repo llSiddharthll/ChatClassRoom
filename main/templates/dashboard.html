@@ -50,15 +50,6 @@
         <a href="#" class="block px-4 py-2 mt-2 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-200">
           My Questions
         </a>
-        <a href="#" class="block px-4 py-2 mt-2 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-200">
-          Upload Notes
-        </a>
-        <a href="#" class="block px-4 py-2 mt-2 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-200">
-          Upload Questions
-        </a>
-        <a href="#" class="block px-4 py-2 mt-2 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-200">
-          Settings
-        </a>
         {% if request.user.is_superuser %}
         <a href="{% url 'admin:index' %}"
           class="block px-4 py-2 mt-2 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-200">
@@ -151,10 +142,10 @@
           {% endfor %}
           {% else %}
           <div class="bg-white p-4 rounded-lg shadow">
-            <h4 class="font-semibold text-lg text-blue-600 line-clamp-2">{{note.title}}</h4>
-            <p class="mt-2 text-gray-600 truncate">{{note.content}}</p>
-            <a href="#" class="mt-4 inline-block text-blue-600 hover:underline">Read more</a>
+            <h4 class="font-semibold text-lg text-blue-600">You have not uploaded any notes yet, try it out</h4>
+            <a href="{% url 'create_note' %}" class="mt-4 inline-block text-blue-600 hover:underline">Upload Now</a>
           </div>
+          {% endif %}
         </div>
       </div>
 
@@ -163,38 +154,20 @@
         <h3 class="text-xl font-semibold text-gray-800">Recent Questions</h3>
         <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <!-- Question Card -->
+          {% if questions %}
+           {% for question in questions|slice:3 %}
           <div class="bg-white p-4 rounded-lg shadow">
-            <h4 class="font-semibold text-lg text-blue-600">Question Title</h4>
-            <p class="mt-2 text-gray-600 truncate">This is a short preview of the question content...</p>
-            <a href="#" class="mt-4 inline-block text-blue-600 hover:underline">View more</a>
+            <h4 class="font-semibold text-lg text-blue-600 line-clamp-2">{{question.title}}</h4>
+            <p class="mt-2 text-gray-600 truncate">{{question.content}}</p>
+            <a href="#" class="mt-4 inline-block text-blue-600 hover:underline">Read more</a>
           </div>
-          <!-- Repeat Question Card for multiple questions -->
-        </div>
-      </div>
-
-      <!-- All Notes and Questions Section -->
-      <div class="mt-8">
-        <h3 class="text-xl font-semibold text-gray-800">Your Notes</h3>
-        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- User Note Card -->
+          {% endfor %}
+          {% else %}
           <div class="bg-white p-4 rounded-lg shadow">
-            <h4 class="font-semibold text-lg text-blue-600">Your Note Title</h4>
-            <p class="mt-2 text-gray-600 truncate">This is a short preview of your note content...</p>
-            <a href="#" class="mt-4 inline-block text-blue-600 hover:underline">View Note</a>
+            <h4 class="font-semibold text-lg text-blue-600">You have not uploaded any questions yet, try it out</h4>
+            <a href="{% url 'create_question' %}" class="mt-4 inline-block text-blue-600 hover:underline">Upload Now</a>
           </div>
-          <!-- Repeat User Note Card for multiple notes -->
-        </div>
-      </div>
-      <div class="mt-8">
-        <h3 class="text-xl font-semibold text-gray-800">Your Questions</h3>
-        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- User Question Card -->
-          <div class="bg-white p-4 rounded-lg shadow">
-            <h4 class="font-semibold text-lg text-blue-600">Your Question Title</h4>
-            <p class="mt-2 text-gray-600 truncate">This is a short preview of your question content...</p>
-            <a href="#" class="mt-4 inline-block text-blue-600 hover:underline">View Question</a>
-          </div>
-          <!-- Repeat User Question Card for multiple questions -->
+          {% endif %}
         </div>
       </div>
     </div>
